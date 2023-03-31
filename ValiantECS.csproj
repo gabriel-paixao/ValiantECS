@@ -1,9 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>		
+		<PackageId>ValiantECS</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Gabriel Paixão</Authors>		
+		<Description>A lightweight and flexible Entity Component System library for game development, built with C# and .NET Core.</Description>
+		<PackageLicenseUrl>https://github.com/gabriel-paixao/ValiantECS/blob/main/LICENSE</PackageLicenseUrl>
+		<RepositoryUrl>https://github.com/gabriel-paixao/ValiantECS</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/gabriel-paixao/ValiantECS</PackageProjectUrl>		
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="LICENSE" Pack="true" PackagePath="." />
+		<None Include="README.md" Pack="true" PackagePath="." />
+	</ItemGroup>
+
 
 </Project>

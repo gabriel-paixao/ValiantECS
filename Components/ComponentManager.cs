@@ -1,4 +1,7 @@
-﻿namespace ValiantECS.Components
+﻿using System;
+using System.Collections.Generic;
+
+namespace ValiantECS.Components
 {
     public class ComponentManager
     {

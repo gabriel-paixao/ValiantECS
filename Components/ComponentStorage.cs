@@ -1,4 +1,5 @@
-﻿using ValiantECS.Utils;
+﻿using System.Collections.Generic;
+using ValiantECS.Utils;
 
 namespace ValiantECS.Components
 {

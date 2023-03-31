@@ -1,4 +1,6 @@
-﻿namespace ValiantECS.Utils
+﻿using System.Collections.Generic;
+
+namespace ValiantECS.Utils
 {
     public class SparseSet
     {
