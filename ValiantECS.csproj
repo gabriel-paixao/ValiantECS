@@ -14,8 +14,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="LICENSE" Pack="true" PackagePath="." />
-		<None Include="README.md" Pack="true" PackagePath="." />
+	  <None Update="Docs\LICENSE" Pack="true" PackagePath="Docs\" />
+	  <None Update="Docs\README.md" Pack="true" PackagePath="Docs\" />
 	</ItemGroup>
 
 

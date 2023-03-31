@@ -1,35 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using ValiantECS.Components;
-using ValiantECS.Systems;
+﻿using System.Collections.Generic;
 
 namespace ValiantECS
 {
     public class World
     {
-        private readonly Dictionary<Type, ComponentManager> _componentManagers;
-        private readonly List<ISystem> _systems;
+        private readonly EntityManager _entityManager;
+        private readonly ComponentManager _componentManager;
+        private readonly List<System> _systems;
 
-        private int _nextEntityId = 0;
+        public EntityManager EntityManager => _entityManager;
+        public ComponentManager ComponentManager => _componentManager;
 
         public World()
         {
-            _componentManagers = new Dictionary<Type, ComponentManager>();
-            _systems = new List<ISystem>();
+            _entityManager = new EntityManager();
+            _componentManager = new ComponentManager();
+            _systems = new List<System>();
         }
 
-        public int CreateEntity()
+        public Entity CreateEntity()
         {
-            int entityId = _nextEntityId;
-            _nextEntityId++;
-            return entityId;
+            return _entityManager.CreateEntity();
         }
 
-        public void DestroyEntity(int entityId)
+        public void AddComponent<T>(Entity entity, T component)
         {
-            foreach (var componentManager in _componentManagers.Values)
+            _componentManager.AddComponent(entity, component);
+        }
+
+        public T GetComponent<T>(Entity entity)
+        {
+            return _componentManager.GetComponent<T>(entity);
+        }
+
+        public void AddSystem(System system)
+        {
+            _systems.Add(system);
+        }
+
+        public void Update()
+        {
+            foreach (var system in _systems)
             {
-                componentManager.RemoveComponent(entityId);
+                system.Update();
             }
         }
     }
