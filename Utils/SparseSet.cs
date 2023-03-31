@@ -8,6 +8,8 @@ namespace ValiantECS.Utils
         private List<int> dense;
         private int count;
 
+        public int Count => count;
+
         public SparseSet()
         {
             sparse = new List<int>();
@@ -45,6 +47,21 @@ namespace ValiantECS.Utils
         public int GetDenseIndex(int index)
         {
             return sparse[index];
+        }
+
+        public void Move(int index, int newIndex)
+        {
+            int denseIndex = sparse[index];
+            int newDenseIndex = sparse[newIndex];
+
+            // Swap dense elements
+            int temp = dense[denseIndex];
+            dense[denseIndex] = dense[newDenseIndex];
+            dense[newDenseIndex] = temp;
+
+            // Update sparse array
+            sparse[index] = newDenseIndex;
+            sparse[newIndex] = denseIndex;
         }
     }
 }

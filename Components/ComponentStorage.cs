@@ -5,26 +5,29 @@ namespace ValiantECS.Components
 {
     public class ComponentStorage<T> where T : struct, IComponent
     {
-        private SparseSet entitySet;
-        private List<T> components;
+        private SparseSet _entitySet;
+        private List<T> _components;
+
+        public SparseSet EntitySet => _entitySet;
+        public List<T> Components => _components;
 
         public ComponentStorage()
         {
-            entitySet = new SparseSet();
-            components = new List<T>();
+            _entitySet = new SparseSet();
+            _components = new List<T>();
         }
 
         public void Add(int entityId, T component)
         {
-            entitySet.Add(entityId);
-            components.Add(component);
+            _entitySet.Add(entityId);
+            _components.Add(component);
         }
 
         public bool Remove(int entityId)
         {
-            if (entitySet.Contains(entityId))
+            if (_entitySet.Contains(entityId))
             {
-                entitySet.Remove(entityId);
+                _entitySet.Remove(entityId);
                 return true;
             }
             return false;
@@ -32,9 +35,9 @@ namespace ValiantECS.Components
 
         public bool TryGetComponent(int entityId, out T component)
         {
-            if (entitySet.Contains(entityId))
+            if (_entitySet.Contains(entityId))
             {
-                component = components[entitySet.GetDenseIndex(entityId)];
+                component = _components[_entitySet.GetDenseIndex(entityId)];
                 return true;
             }
             component = default(T);

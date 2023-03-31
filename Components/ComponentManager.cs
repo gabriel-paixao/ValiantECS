@@ -23,5 +23,42 @@ namespace ValiantECS.Components
 
             return (ComponentStorage<T>)storage;
         }
+
+        public virtual void RemoveComponent(int entityId)
+        {
+            // This method should be implemented in the derived class
+            throw new NotImplementedException();
+        }
+
+        public void RemoveComponent<T>(int entityId) where T : struct, IComponent
+        {
+            var storage = GetStorage<T>();
+
+            if (storage.Remove(entityId))
+            {
+                int denseIndex = storage.EntitySet.GetDenseIndex(entityId);
+                int lastIndex = storage.EntitySet.Count - 1;
+
+                if (denseIndex != lastIndex)
+                {
+                    int lastEntityId = storage.EntitySet.GetDenseIndex(lastIndex);
+                    T lastComponent = storage.Components[lastIndex];
+
+                    storage.Components[denseIndex] = lastComponent;
+                    storage.EntitySet.Move(lastEntityId, denseIndex);
+                }
+
+                storage.Components.RemoveAt(lastIndex);
+            }
+        }
+    }
+
+    public class ComponentManager<T> : ComponentManager where T : struct, IComponent
+    {
+        public override void RemoveComponent(int entityId)
+        {
+            // Call the generic RemoveComponent method with the proper type argument
+            RemoveComponent<T>(entityId);
+        }
     }
 }
