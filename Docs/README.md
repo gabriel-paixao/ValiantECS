@@ -1,17 +1,107 @@
 # ValiantECS
 
-ValiantECS is a high-performance, engine-agnostic Entity Component System (ECS) library for C#. It's designed with simplicity, flexibility, and performance in mind, empowering developers to create games and applications with efficient and clean code. ValiantECS is inspired by the [Amethyst Specs](https://github.com/amethyst/specs) project.
-
-## Features
-
-- Engine-agnostic design, suitable for use with any game engine or application framework
-- High-performance component storage and retrieval using a `SparseSet` data structure
-- Simple and intuitive API for managing entities, components, and systems
-- Support for .NET 6 and modern C# language features
+ValiantECS is a high-performance, engine-agnostic Entity Component System (ECS) library for C#. It's designed with simplicity, flexibility, and performance in mind, empowering developers to create games and applications with efficient and clean code.
 
 ## Usage
 
-Refer to the provided tutorials and example projects in the repository to learn how to use ValiantECS in your projects.
+```Csharp
+namespace ValiantECS.Tests
+{
+    public class Position
+    {
+        public double X;
+        public double Y;
+    }
+
+    public class Velocity
+    {
+        public double X;
+        public double Y;
+    }
+
+    public class Life
+    {
+        public int Value { get; set; }
+    }
+
+    public class HelloWorld : ISystem
+    {
+        public void Run(World world, double elapsedGameTime)
+        {
+            foreach (var (pos, _) in world.Join<Position>())
+            {
+                Console.WriteLine($"{pos.X} {pos.Y}");
+            }
+        }
+    }
+    public class UpdatePos : ISystem
+    {
+        public void Run(World world, double elapsedGameTime)
+        {
+            foreach (var (pos, vel, _) in world.Join<Position, Velocity>())
+            {
+                pos.X += vel.X * 0.05;
+                pos.Y += vel.Y * 0.05;
+            }
+        }
+    }
+
+    public class Decay : ISystem
+    {
+        public void Run(World world, double elapsedGameTime)
+        {
+            foreach (var (life, entity) in world.Join<Life>())
+            {
+                if (life.Value <= 0)
+                {
+                    world.DeleteEntity(entity);
+                }
+                else
+                {
+                    life.Value -= 1;
+                }
+            }
+        }
+    }
+
+    public class ExampleTests
+    {
+        [Fact]
+        public void TestGame()
+        {
+            var world = new World();
+            world.RegisterComponent<Position>();
+            world.RegisterComponent<Velocity>();
+            world.RegisterComponent<Life>();
+
+            world.CreateEntity()
+            .With(new Position { X = 2, Y = 5 })
+            .Build();
+
+            world.CreateEntity()
+            .With(new Position { X = 2, Y = 5 })
+            .With(new Velocity { X = 0.1, Y = 0.2 })
+            .Build();
+
+            world.CreateEntity()
+            .With(new Position { X = 10, Y = 9 })
+            .With(new Velocity { X = 0.1, Y = 0.2 })
+            .With(new Life { Value = 1 })
+            .Build();
+
+            var dispatcher = new Dispatcher()
+                                .With(new HelloWorld(), "hello_world", new string[] { })
+                                .With(new UpdatePos(), "update_pos", new[] { "hello_world" })
+                                .With(new HelloWorld(), "hello_updated", new[] { "update_pos" })
+                                .With(new Decay(), "decay", new string[] { });
+
+            dispatcher.Dispatch(world, 0);
+            dispatcher.Dispatch(world, 0);
+            dispatcher.Dispatch(world, 0);
+        }
+    }
+}
+```
 
 ## Credits
 
