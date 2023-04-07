@@ -2,6 +2,6 @@
 {
     public interface ISystem
     {
-        void Run(World world, double elapsedGameTime);
+        void Run(World world);
     }
 }

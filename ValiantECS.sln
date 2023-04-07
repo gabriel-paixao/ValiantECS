@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValiantECS", "ValiantECS.csproj", "{764394B4-C066-440B-A0B9-2A6BBCBF62ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValiantECS.Tests", "..\ValiantECS.Tests\ValiantECS.Tests.csproj", "{5F1BFF8F-51E8-4BCA-83DF-9D636F1A9BBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValiantECS.Tests", "..\ValiantECS.Tests\ValiantECS.Tests.csproj", "{5F1BFF8F-51E8-4BCA-83DF-9D636F1A9BBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValiantRogue", "..\ValiantRogue\ValiantRogue.csproj", "{73D987DD-0448-4AC4-8365-D89079BA8F71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5F1BFF8F-51E8-4BCA-83DF-9D636F1A9BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F1BFF8F-51E8-4BCA-83DF-9D636F1A9BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F1BFF8F-51E8-4BCA-83DF-9D636F1A9BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D987DD-0448-4AC4-8365-D89079BA8F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D987DD-0448-4AC4-8365-D89079BA8F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D987DD-0448-4AC4-8365-D89079BA8F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D987DD-0448-4AC4-8365-D89079BA8F71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
