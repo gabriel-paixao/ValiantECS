@@ -1,49 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ValiantECS
 {
     public class World
     {
-        private readonly EntityManager _entityManager;
-        private readonly ComponentManager _componentManager;
-        private readonly List<System> _systems;
-
-        public EntityManager EntityManager => _entityManager;
-        public ComponentManager ComponentManager => _componentManager;
+        private int _ids = 0;
+        private List<Entity> _entities;
+        private Dictionary<Type, IComponentStorage> _componentStorages;
 
         public World()
         {
-            _entityManager = new EntityManager();
-            _componentManager = new ComponentManager();
-            _systems = new List<System>();
+            _entities = new List<Entity>();
+            _componentStorages = new Dictionary<Type, IComponentStorage>();
         }
 
-        public Entity CreateEntity()
+        public void RegisterComponent<T>() where T : new()
         {
-            return _entityManager.CreateEntity();
+            var componentType = typeof(T);
+            _componentStorages[componentType] = new ComponentStorage<T>();
         }
 
-        public void AddComponent<T>(Entity entity, T component)
+        public EntityBuilder CreateEntity()
         {
-            _componentManager.AddComponent(entity, component);
+            var entity = new Entity() { Id = _ids++ };
+            _entities.Add(entity);
+            return new EntityBuilder(this, entity);
         }
 
-        public T GetComponent<T>(Entity entity)
+        public ComponentStorage<T> GetComponentStorage<T>() where T : new()
         {
-            return _componentManager.GetComponent<T>(entity);
+            var componentType = typeof(T);
+            return (ComponentStorage<T>)_componentStorages[componentType];
         }
 
-        public void AddSystem(System system)
+        public void DeleteEntity(Entity entity)
         {
-            _systems.Add(system);
-        }
+            _entities.Remove(entity);
 
-        public void Update()
-        {
-            foreach (var system in _systems)
+            foreach (var componentStorage in _componentStorages.Values)
             {
-                system.Update();
+                componentStorage.Remove(entity);
             }
         }
+
+        public List<Entity> GetEntities()
+        {
+            return new List<Entity>(_entities);
+        }
     }
+
 }
