@@ -22,7 +22,7 @@ namespace ValiantECS
             return this;
         }
 
-        public void Dispatch(World world, double elapsedGameTime)
+        public void Dispatch(World world)
         {
             var executedSystems = new HashSet<string>();
 
@@ -37,7 +37,7 @@ namespace ValiantECS
 
                     if (executionUnit.Dependencies.IsSubsetOf(executedSystems))
                     {
-                        executionUnit.System.Run(world, elapsedGameTime);
+                        executionUnit.System.Run(world);
                         executedSystems.Add(executionUnit.Name);
                     }
                 }
